@@ -1,0 +1,69 @@
+
+I created 2 Instances
+
+1) Client
+2) Server
+
+
+SERVER (DATABASE)
+*******************
+# SSH into the Server to install mysql server
+
+sudo apt install mysql-server
+
+# install successful
+
+sudo mysql_secure_installation
+
+# Password validation chosen - Level 1
+
+# start and enable mysql
+
+sudo sysytemctl start mysql
+
+sudo systemctl enable mysql
+
+sudo systemctl status mysql
+
+
+CLIENT
+*****************
+sudo apt update
+
+sudo apt install mysql-client
+
+# I opened port 3306 on the dvserver instance and allowed connection only from the  clients private ip address.
+
+
+# We need to create a database and database user who will connect remotely from the client
+
+
+CREATE DATABASE projectdb;
+
+CREATE USER 'remote_user'@'%' IDENTIFIED WITH mysql_native_password BY 'password';
+
+GRANT ALL ON projectdb.* TO 'remote_user'@'%' WITH GRANT OPTION;
+
+# To make our server accessible remotely:
+sudo vi /etc/mysql/mysql.conf.d/mysqld.cnf
+
+# change bind address from 127.0.0.1 to 0.0.0.0
+
+sudo systemctl restart mysql
+
+# From the mysql client, we need to connect remotely to the db server
+
+sudo mysql -u remote_user -h 172.31.47.210 -p      IP address is host (dbserver) private IP address
+
+# connection successful
+
+#run show databases to check connection
+
+
+
+
+
+
+
+
+
